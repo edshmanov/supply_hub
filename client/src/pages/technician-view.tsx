@@ -29,15 +29,6 @@ export default function TechnicianView() {
       const item = group.items[0];
       if (!isInCart(item.id)) {
         addItem(item, group);
-        toast({
-          title: t.addedToCart,
-          description: `${group.name}`,
-        });
-      } else {
-        toast({
-          title: t.alreadyInCart,
-          description: `${group.name}`,
-        });
       }
     } else {
       setSelectedGroup(group);
@@ -47,10 +38,6 @@ export default function TechnicianView() {
   const handleAddToCart = (item: Item, group: ItemGroup) => {
     if (!isInCart(item.id)) {
       addItem(item, group);
-      toast({
-        title: t.addedToCart,
-        description: `${group.name} - ${item.name}`,
-      });
     }
   };
 

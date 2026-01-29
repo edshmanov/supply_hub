@@ -1,11 +1,10 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
-import * as schema from "@shared/schema";
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import * as schema from "../shared/schema";
 
 if (!process.env.DATABASE_URL) {
-  // Set default for local dev if not present (although we hardcoded sqlite.db in config, runtime needs it too or just use file)
-  // Actually, for better-sqlite3 we just need a filename.
+  throw new Error("DATABASE_URL must be set. Did you forget to provision a database?");
 }
 
-export const sqlite = new Database("sqlite.db");
-export const db = drizzle(sqlite, { schema });
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool, { schema });

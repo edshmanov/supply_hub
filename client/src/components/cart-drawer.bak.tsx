@@ -95,13 +95,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
             data-testid="button-cart"
             variant="ghost"
             size="lg"
-            className={`${triggerClassName} h-20 w-20 rounded-full hover:bg-transparent`}
+            className={`${triggerClassName} h-12 w-12`}
           >
-            <TruckIcon className="w-16 h-16" />
+            <TruckIcon className="w-8 h-8" />
             {itemCount > 0 && (
               <Badge
-                className="absolute top-0 right-0 h-8 min-w-[2rem] rounded-full p-1 flex items-center justify-center text-lg font-bold border-2 border-background shadow-sm"
-                variant="destructive"
+                className="absolute -top-1 -right-1 h-6 w-6 rounded-full p-0 flex items-center justify-center text-sm font-bold"
                 data-testid="badge-cart-count"
               >
                 {itemCount}
@@ -161,22 +160,22 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
           </div>
 
           {itemCount > 0 && (
-            <SheetFooter className="grid grid-cols-2 gap-4">
+            <SheetFooter className="flex-col gap-2 sm:flex-col">
               <Button
                 variant="outline"
                 onClick={() => clearCart()}
-                className="w-full h-16 text-lg font-bold"
+                className="w-full"
                 data-testid="button-clear-cart"
               >
-                <Trash2 className="w-6 h-6 mr-2" />
+                <Trash2 className="w-4 h-4 mr-2" />
                 {t.clearAll}
               </Button>
               <Button
                 onClick={handleSubmit}
-                className="w-full h-16 text-lg font-bold"
+                className="w-full"
                 data-testid="button-submit-order"
               >
-                <Send className="w-6 h-6 mr-2" />
+                <Send className="w-4 h-4 mr-2" />
                 {t.submitOrder}
               </Button>
             </SheetFooter>
@@ -192,18 +191,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
               {t.confirmOrderText}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="grid grid-cols-2 gap-4 sm:space-x-0">
-            <AlertDialogCancel
-              data-testid="button-cancel-order"
-              className="w-full h-16 text-lg font-bold mt-0"
-            >
-              {t.cancel}
-            </AlertDialogCancel>
+          <AlertDialogFooter>
+            <AlertDialogCancel data-testid="button-cancel-order">{t.cancel}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmSend}
               disabled={submitOrderMutation.isPending}
               data-testid="button-confirm-send"
-              className="w-full h-16 text-lg font-bold"
             >
               {submitOrderMutation.isPending ? t.sending : t.sendToMicah}
             </AlertDialogAction>
