@@ -14,7 +14,7 @@ export function GroupButton({ group, onClick }: GroupButtonProps) {
   const { isInCart } = useCart();
   const { t } = useLanguage();
   const CustomIcon = categoryIconMap[group.icon];
-  
+
   const cartCount = group.items.filter(item => isInCart(item.id)).length;
   const hasItemsInCart = cartCount > 0;
 
@@ -28,21 +28,21 @@ export function GroupButton({ group, onClick }: GroupButtonProps) {
         rounded-2xl border-2 transition-all duration-200
         text-center p-4
         active:scale-95
-        ${hasItemsInCart 
-          ? "border-primary bg-primary/10" 
+        ${hasItemsInCart
+          ? "border-primary bg-primary/10"
           : "border-border bg-card hover:bg-card/80"
         }
       `}
     >
       {hasItemsInCart && (
-        <Badge 
+        <Badge
           data-testid={`badge-group-cart-${group.id}`}
           className="absolute top-3 right-3 bg-primary text-primary-foreground px-2 py-1 text-sm font-bold"
         >
           {cartCount}
         </Badge>
       )}
-      
+
       <div className={`p-4 rounded-xl ${hasItemsInCart ? "bg-primary/20" : "bg-muted"}`}>
         {CustomIcon ? (
           <CustomIcon className={`w-10 h-10 ${hasItemsInCart ? "text-primary" : "text-foreground"}`} />
@@ -50,15 +50,15 @@ export function GroupButton({ group, onClick }: GroupButtonProps) {
           <Package className={`w-10 h-10 ${hasItemsInCart ? "text-primary" : "text-foreground"}`} />
         )}
       </div>
-      
+
       <span className="text-lg font-semibold leading-tight">{group.name}</span>
-      
+
       {!group.isSingleItem && (
         <span className="text-sm text-muted-foreground">
           {group.items.length} {t.variants}
         </span>
       )}
-      
+
       {hasItemsInCart && group.isSingleItem && (
         <div className="flex items-center gap-1 text-primary text-sm font-medium">
           <TruckIcon className="w-4 h-4" />
