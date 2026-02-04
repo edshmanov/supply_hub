@@ -35,7 +35,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
   const { items, removeItem, clearCart, itemCount } = useCart();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
 
   const submitOrderMutation = useMutation({
@@ -45,17 +45,13 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
     },
     onSuccess: (data: { success: boolean; emailSent: boolean; emailError?: string }) => {
       if (data.success && data.emailSent) {
-        toast({
-          title: t.orderSent,
-          description: t.orderSentDesc,
-        });
-        clearCart();
         setShowConfirm(false);
-        setOpen(false);
+        setShowSuccess(true);
+        // Clear cart after user closes success dialog
       } else if (data.success && !data.emailSent) {
         toast({
           title: t.orderSaved,
-          description: t.orderSavedDesc,
+          description: `${t.orderSavedDesc} (${data.emailError || "Unknown error"})`,
           variant: "destructive",
         });
         setShowConfirm(false);
@@ -77,6 +73,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const handleConfirmSend = () => {
     submitOrderMutation.mutate();
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccess(false);
+    clearCart();
+    setOpen(false);
   };
 
   const groupedItems = items.reduce((acc, item) => {
@@ -206,6 +208,28 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
               className="w-full h-16 text-lg font-bold"
             >
               {submitOrderMutation.isPending ? t.sending : t.sendToMicah}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showSuccess} onOpenChange={(open) => !open && handleSuccessClose()}>
+        <AlertDialogContent className="sm:max-w-md">
+          <AlertDialogHeader className="items-center text-center space-y-4">
+            <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+              <TruckIcon className="w-10 h-10 text-green-600" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-bold text-green-600">{t.orderSent}</AlertDialogTitle>
+            <AlertDialogDescription className="text-lg">
+              {t.orderSentDesc}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center">
+            <AlertDialogAction
+              onClick={handleSuccessClose}
+              className="w-full sm:w-1/2 h-14 text-lg font-bold bg-green-600 hover:bg-green-700"
+            >
+              OK
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
