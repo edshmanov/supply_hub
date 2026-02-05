@@ -35,6 +35,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
   const { items, removeItem, clearCart, itemCount } = useCart();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const { toast } = useToast();
 
