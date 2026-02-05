@@ -163,17 +163,8 @@ export function Header({
               {isClearingAll ? "Clearing..." : "Clear All"}
             </Button>
           )}
-          {showManagerLink && onManagerClick && (
-            <Button
-              data-testid="button-manager-view"
-              variant="outline"
-              onClick={onManagerClick}
-              className="px-4"
-            >
-              <Lock className="w-4 h-4 mr-2" />
-              Manager
-            </Button>
-          )}
+
+          {/* Manager button hidden as requested */}
         </div>
       </div>
     </header>

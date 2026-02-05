@@ -98,12 +98,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
             data-testid="button-cart"
             variant="ghost"
             size="lg"
-            className={`${triggerClassName} h-20 w-20 rounded-full hover:bg-transparent`}
+            className={`${triggerClassName} h-28 w-28 rounded-full hover:bg-transparent`}
           >
-            <TruckIcon className="w-16 h-16" />
+            <TruckIcon className="w-24 h-24" />
             {itemCount > 0 && (
               <Badge
-                className="absolute top-0 right-0 h-8 min-w-[2rem] rounded-full p-1 flex items-center justify-center text-lg font-bold border-2 border-background shadow-sm"
+                className="absolute top-1 right-1 h-10 min-w-[2.5rem] rounded-full p-2 flex items-center justify-center text-xl font-bold border-2 border-background shadow-sm"
                 variant="destructive"
                 data-testid="badge-cart-count"
               >
