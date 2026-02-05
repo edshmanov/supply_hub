@@ -9,14 +9,14 @@ interface OrderItem {
   groupName: string;
 }
 
-// Create reusable transporter object using the default SMTP transport
+// Create reusable transporter object using Namecheap Private Email
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // use STARTTLS
+  host: 'mail.privateemail.com',
+  port: 465,
+  secure: true, // use SSL
   auth: {
-    user: 'edshmanov@gmail.com', // Sender
-    pass: 'uoto syoc vffz ocan',   // App Password
+    user: 'ed@shmanov.com',
+    pass: 'Boxing1986Boxing1986',
   },
 });
 
@@ -96,6 +96,7 @@ export async function sendOrderEmail(
     console.log('Attempting to send email for order:', orderId);
 
     // Hardcoded recipient for reliability as requested (User's email for testing)
+    // Sending TO the personal gmail (edshmanov@gmail.com) so user can see it
     const recipientEmail = 'edshmanov@gmail.com';
 
     console.log('Sending email to:', recipientEmail);
@@ -104,10 +105,11 @@ export async function sendOrderEmail(
     const htmlBody = generateEmailBody(items, orderId);
 
     const info = await transporter.sendMail({
-      from: '"Built Right Company" <edshmanov@gmail.com>', // sender address
+      from: '"Built Right Company" <ed@shmanov.com>', // sender address MUST match authenticated user
       to: recipientEmail, // list of receivers
       subject: subject, // Subject line
       html: htmlBody, // html body
+      // messageId: messageId, // Nodemailer generates this automatically
     });
 
     console.log('Email sent successfully:', info.messageId);
