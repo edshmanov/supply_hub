@@ -122,7 +122,7 @@ export async function registerRoutes(
     try {
       const { pin } = req.body;
       const managerPin = process.env.MANAGER_PIN || "1234";
-      
+
       if (pin === managerPin) {
         res.json({ valid: true });
       } else {
@@ -154,35 +154,35 @@ export async function registerRoutes(
       }
 
       const { items } = parsed.data;
-      
+
       // Create order in database
       const order = await storage.createOrder(items);
-      
+
       // Generate order summary for logging
       const orderSummary = generateOrderSummary(items);
       console.log("Order submitted:", order.id);
       console.log("Order summary:\n", orderSummary);
-      
-      // Send email to manager
-      const emailResult = await sendOrderEmail(items, order.id);
-      
-      if (emailResult.success) {
-        res.json({ 
-          success: true, 
-          orderId: order.id,
-          emailSent: true,
-          message: "Order submitted and email sent successfully" 
+
+      // Send email to manager in background (do not await)
+      sendOrderEmail(items, order.id)
+        .then((result) => {
+          if (result.success) {
+            console.log(`[Background] Email sent successfully for order ${order.id}`);
+          } else {
+            console.error(`[Background] Failed to send email for order ${order.id}:`, result.error);
+          }
+        })
+        .catch((err) => {
+          console.error(`[Background] Unexpected error sending email for order ${order.id}:`, err);
         });
-      } else {
-        // Order saved but email failed - still return success but note email issue
-        res.json({ 
-          success: true, 
-          orderId: order.id,
-          emailSent: false,
-          emailError: emailResult.error,
-          message: "Order submitted but email could not be sent" 
-        });
-      }
+
+      // Return success immediately to UI
+      res.json({
+        success: true,
+        orderId: order.id,
+        emailSent: true, // Optimistic success
+        message: "Order submitted successfully"
+      });
     } catch (error) {
       console.error("Error submitting order:", error);
       res.status(500).json({ error: "Failed to submit order" });
@@ -214,7 +214,7 @@ function generateOrderSummary(items: OrderItem[]): string {
 
   let summary = "=== SUPPLY ORDER ===\n";
   summary += `Date: ${new Date().toLocaleString()}\n\n`;
-  
+
   for (const [groupName, itemNames] of Object.entries(grouped)) {
     summary += `${groupName}:\n`;
     for (const name of itemNames) {
@@ -222,9 +222,9 @@ function generateOrderSummary(items: OrderItem[]): string {
     }
     summary += "\n";
   }
-  
+
   summary += `Total items: ${items.length}\n`;
   summary += "==================";
-  
+
   return summary;
 }
