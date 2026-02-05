@@ -11,7 +11,9 @@ interface OrderItem {
 
 // Create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // use SSL
   auth: {
     user: 'edshmanov@gmail.com', // Sender
     pass: 'uoto syoc vffz ocan',   // App Password
