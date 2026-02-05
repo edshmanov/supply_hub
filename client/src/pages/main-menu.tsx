@@ -25,14 +25,13 @@ function DepartmentCard({ name, icon: Icon, description, isActive, onClick }: De
       data-testid={`button-department-${name.toLowerCase().replace(/\s/g, "-")}`}
       onClick={onClick}
       disabled={!isActive}
-      className={`relative flex flex-col items-center justify-center p-8 rounded-2xl border-2 transition-all min-h-[200px] ${
-        isActive 
-          ? "border-primary bg-card hover-elevate active-elevate-2 cursor-pointer" 
+      className={`relative flex flex-col items-center justify-center p-8 rounded-2xl border-2 transition-all min-h-[200px] ${isActive
+          ? "border-primary bg-card hover-elevate active-elevate-2 cursor-pointer"
           : "border-border bg-muted/30 cursor-not-allowed opacity-60"
-      }`}
+        }`}
     >
       {!isActive && (
-        <Badge 
+        <Badge
           className="absolute top-3 right-3 bg-muted text-muted-foreground"
           data-testid={`badge-coming-soon-${name.toLowerCase().replace(/\s/g, "-")}`}
         >
@@ -61,11 +60,10 @@ function ThemeSettings() {
               key={config.id}
               data-testid={`button-theme-${config.id}`}
               onClick={() => setTheme(config.id)}
-              className={`relative p-4 rounded-lg border-2 text-left transition-all hover-elevate ${
-                theme === config.id
+              className={`relative p-4 rounded-lg border-2 text-left transition-all hover-elevate ${theme === config.id
                   ? "border-primary bg-primary/10"
                   : "border-border bg-card"
-              }`}
+                }`}
             >
               {theme === config.id && (
                 <div className="absolute top-2 right-2">
@@ -91,11 +89,10 @@ function ThemeSettings() {
                 key={accentId}
                 data-testid={`button-accent-${accentId}`}
                 onClick={() => setAccent(accentId)}
-                className={`relative flex flex-col items-center p-3 rounded-lg border-2 transition-all hover-elevate ${
-                  accent === accentId
+                className={`relative flex flex-col items-center p-3 rounded-lg border-2 transition-all hover-elevate ${accent === accentId
                     ? "border-primary bg-primary/10"
                     : "border-border bg-card"
-                }`}
+                  }`}
               >
                 <div
                   className="w-8 h-8 rounded-full border border-border/50"
@@ -172,9 +169,9 @@ export default function MainMenu() {
             <div className="p-2 rounded-lg bg-primary/20">
               <Package className="w-6 h-6 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">Supply Hub</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Built Right Company</h1>
           </div>
-          
+
           <Sheet>
             <SheetTrigger asChild>
               <Button

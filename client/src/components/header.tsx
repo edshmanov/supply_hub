@@ -40,7 +40,7 @@ export function Header({
   isClearingAll
 }: HeaderProps) {
   const { language, setLanguage, t, languageNames, languages } = useLanguage();
-  
+
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
@@ -61,7 +61,7 @@ export function Header({
           </div>
           <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
           {requestCount > 0 && !showCart && (
-            <Badge 
+            <Badge
               data-testid="badge-request-count"
               className="bg-destructive text-destructive-foreground ml-2 px-3 py-1 text-sm font-bold"
             >
@@ -69,7 +69,7 @@ export function Header({
             </Badge>
           )}
         </div>
-        
+
         <div className="flex items-center gap-2">
           {showTruckList && (
             <TruckListDrawer />
@@ -114,7 +114,7 @@ export function Header({
                 </div>
 
                 <Separator />
-                
+
                 <div className="space-y-3">
                   <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
                     <Palette className="w-4 h-4" />
@@ -122,9 +122,9 @@ export function Header({
                   </h3>
                   <ThemeSwitcherContent />
                 </div>
-                
+
                 <Separator />
-                
+
                 <div className="space-y-3">
                   <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
                     <Info className="w-4 h-4" />
@@ -133,7 +133,7 @@ export function Header({
                   <div className="space-y-2">
                     <div className="p-3 rounded-lg bg-muted/50">
                       <p className="text-sm text-muted-foreground">
-                        <strong>Body Shop Supply Hub</strong><br />
+                        <strong>Built Right Company</strong><br />
                         {t.version}
                       </p>
                     </div>

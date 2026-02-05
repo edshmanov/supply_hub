@@ -39,7 +39,7 @@ function generateEmailBody(items: OrderItem[], orderId: string): string {
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
           <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
             <h1 style="color: #f59e0b; border-bottom: 3px solid #f59e0b; padding-bottom: 15px; margin-top: 0;">
-              Body Shop Supply Order
+              Built Right Company Order
             </h1>
             <div style="background: #fff8e6; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
               <p style="color: #666; margin: 0;">
@@ -100,11 +100,11 @@ export async function sendOrderEmail(
 
     console.log('Sending email to:', recipientEmail);
     // Updated subject as requested
-    const subject = `Body Shop Supply Order #${orderId.slice(0, 8)} - ${items.length} items`;
+    const subject = `Built Right Company Order #${orderId.slice(0, 8)} - ${items.length} items`;
     const htmlBody = generateEmailBody(items, orderId);
 
     const info = await transporter.sendMail({
-      from: '"Body Shop Supply Hub" <edshmanov@gmail.com>', // sender address
+      from: '"Built Right Company" <edshmanov@gmail.com>', // sender address
       to: recipientEmail, // list of receivers
       subject: subject, // Subject line
       html: htmlBody, // html body
