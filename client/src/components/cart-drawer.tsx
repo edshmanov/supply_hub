@@ -41,27 +41,57 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/orders/submit", { items });
-      return response.json();
-    },
-    onSuccess: (data: { success: boolean; emailSent: boolean; emailError?: string }) => {
-      if (data.success && data.emailSent) {
-        setShowConfirm(false);
-        setShowSuccess(true);
-        // Clear cart after user closes success dialog
-      } else if (data.success && !data.emailSent) {
-        toast({
-          title: t.orderSaved,
-          description: `${t.orderSavedDesc} (${data.emailError || "Unknown error"})`,
-          variant: "destructive",
-        });
-        setShowConfirm(false);
+      // 1. Format the email body
+      const date = new Date().toLocaleString();
+      let orderList = "Order Details:\n\n";
+
+      items.forEach((item) => {
+        const name = item.groupName === item.itemName
+          ? item.itemName
+          : `${item.groupName} - ${item.itemName}`;
+        orderList += `- ${name}\n`;
+      });
+
+      orderList += `\nTotal Items: ${items.length}`;
+
+      // 2. Send via EmailJS REST API
+      const payload = {
+        service_id: "service_xyz",
+        template_id: "template_5xjf6zm",
+        user_id: "mneT6WszdE5CP1y5N",
+        template_params: {
+          message: orderList,
+          to_name: "Manager",
+          from_name: "Built Right App",
+          order_id: Math.random().toString(36).substr(2, 9).toUpperCase(),
+          date: date
+        }
+      };
+
+      const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send email via EmailJS");
       }
+
+      return { success: true, emailSent: true };
     },
-    onError: () => {
+    onSuccess: (data) => {
+      setShowConfirm(false);
+      setShowSuccess(true);
+      // Clear cart handled by dialog close
+    },
+    onError: (error) => {
+      console.error("EmailJS Error:", error);
       toast({
         title: t.error,
-        description: t.errorDesc,
+        description: "Failed to send email. Please check internet connection.",
         variant: "destructive",
       });
       setShowConfirm(false);
