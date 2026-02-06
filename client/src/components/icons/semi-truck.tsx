@@ -11,26 +11,34 @@ export function SemiTruckIcon(props: LucideProps) {
             stroke="none"
             {...props}
         >
-            {/* Front Grille area - Maximized size */}
-            <path d="M4 2h16c1.1 0 2 .9 2 2v9h-2V6H4v7H2V4c0-1.1.9-2 2-2z" /> {/* Top/Sides of Cab */}
-            <rect x="6" y="8" width="12" height="10" rx="1" /> {/* Main Grille */}
-            <path d="M7 10h10v1H7zM7 12h10v1H7zM7 14h10v1H7zM7 16h10v1H7z" fill="var(--background)" />
+            {/* Front Cab Body - Solid Block */}
+            <path d="M4 2h16a2 2 0 0 1 2 2v10H2V4a2 2 0 0 1 2-2z" />
 
-            {/* Bumper */}
+            {/* Windshield - Negative space (background color) */}
+            <path d="M5 5h14v4H5V5z" fill="var(--background)" stroke="var(--background)" strokeWidth="1" />
+            <path d="M12 5v4" stroke="currentColor" strokeWidth="2" /> {/* Center pillar */}
+
+            {/* Grille - Negative Space */}
+            <path d="M7 11h10v6H7v-6z" fill="var(--background)" />
+            <path d="M7 12h10" stroke="currentColor" strokeWidth="1" />
+            <path d="M7 14h10" stroke="currentColor" strokeWidth="1" />
+            <path d="M7 16h10" stroke="currentColor" strokeWidth="1" />
+
+            {/* Bumper - Solid */}
             <path d="M2 18h20v4H2z" />
 
-            {/* Lights */}
-            <circle cx="4" cy="16" r="2" />
-            <circle cx="20" cy="16" r="2" />
+            {/* Lights - Negative Space Circles */}
+            <circle cx="4.5" cy="16" r="1.5" fill="var(--background)" />
+            <circle cx="19.5" cy="16" r="1.5" fill="var(--background)" />
 
-            {/* Mirrors */}
-            <rect x="0" y="6" width="2" height="6" rx="0.5" />
-            <rect x="22" y="6" width="2" height="6" rx="0.5" />
+            {/* Roof Lights - Negative Space */}
+            <circle cx="8" cy="3.5" r="1" fill="var(--background)" />
+            <circle cx="12" cy="3.5" r="1" fill="var(--background)" />
+            <circle cx="16" cy="3.5" r="1" fill="var(--background)" />
 
-            {/* Roof Lights */}
-            <circle cx="8" cy="4" r="1" fill="var(--background)" />
-            <circle cx="12" cy="4" r="1" fill="var(--background)" />
-            <circle cx="16" cy="4" r="1" fill="var(--background)" />
+            {/* Side Mirrors - Solid Ears */}
+            <path d="M0 6h3v6H0z" />
+            <path d="M21 6h3v6h-3z" />
         </svg>
     );
 }

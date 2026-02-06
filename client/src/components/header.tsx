@@ -43,47 +43,54 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
-      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-2 relative">
+        {/* Left Side: Back, Logo, Title */}
+        <div className="flex items-center gap-2 pr-20">
           {showBackLink && onBackClick && (
             <Button
               data-testid="button-back"
               variant="ghost"
               size="icon"
               onClick={onBackClick}
-              className="mr-1"
+              className="mr-0 shrink-0"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
           )}
-          <div className="p-2 rounded-lg bg-primary/20">
-            <Package className="w-6 h-6 text-primary" />
+          <div className="p-1.5 rounded-lg bg-primary/20 shrink-0">
+            <Package className="w-5 h-5 text-primary" />
           </div>
-          <h1 className="text-lg md:text-2xl font-bold tracking-tight truncate max-w-[200px] md:max-w-none">{title}</h1>
+          <h1 className="text-lg md:text-2xl font-bold tracking-tight truncate">{title}</h1>
           {requestCount > 0 && !showCart && (
             <Badge
               data-testid="badge-request-count"
-              className="bg-destructive text-destructive-foreground ml-2 px-3 py-1 text-sm font-bold"
+              className="bg-destructive text-destructive-foreground ml-2 px-2 py-0.5 text-xs font-bold"
             >
               {requestCount}
             </Badge>
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Right Side: Actions */}
+        <div className="flex items-center gap-1">
           {showTruckList && (
-            <TruckListDrawer />
+            <div className="mr-14 md:mr-0"> {/* Spacing for mobile absolute cart */}
+              <TruckListDrawer />
+            </div>
           )}
+
           <Sheet>
             <SheetTrigger asChild>
               <Button
                 data-testid="button-menu"
                 variant="ghost"
                 size="icon"
+                className="mr-16 md:mr-0" // Push menu left on mobile to avoid overlap
               >
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
+            {/* ... Sheet Content ... */}
             <SheetContent side="right" className="w-80">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
@@ -148,23 +155,26 @@ export function Header({
               </div>
             </SheetContent>
           </Sheet>
+
+          {/* Cart Drawer - Absolute Positioned on Mobile to prevent squishing */}
           {showCart && (
-            <CartDrawer triggerClassName="relative" />
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10 md:static md:transform-none">
+              <CartDrawer triggerClassName="relative" />
+            </div>
           )}
+
           {onClearAll && requestCount > 0 && (
             <Button
               data-testid="button-clear-all"
               variant="destructive"
               onClick={onClearAll}
               disabled={isClearingAll}
-              className="px-4"
+              className="px-4 hidden md:flex" // Hide on mobile if crowded
             >
               <Trash2 className="w-4 h-4 mr-2" />
               {isClearingAll ? "Clearing..." : "Clear All"}
             </Button>
           )}
-
-          {/* Manager button hidden as requested */}
         </div>
       </div>
     </header>
