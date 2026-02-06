@@ -41,18 +41,37 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      // 1. Format the email body
-      const date = new Date().toLocaleString();
-      let orderList = "Order Details:\n\n";
+      // 1. Format the email body (Receipt Style)
+      const date = new Date().toLocaleString("en-US", {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      const orderId = Math.random().toString(36).substr(2, 9).toUpperCase();
 
-      items.forEach((item) => {
+      let orderList = "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+      orderList += "🏭  BUILT RIGHT COMPANY  🏭\n";
+      orderList += "     SUPPLY ORDER REQUEST\n";
+      orderList += "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+      orderList += `📅 Date:   ${date}\n`;
+      orderList += `🆔 Order:  #${orderId}\n`;
+      orderList += "\n-----------------------------------\n";
+      orderList += "📦  ITEMS REQUESTED:\n";
+      orderList += "-----------------------------------\n\n";
+
+      items.forEach((item, index) => {
         const name = item.groupName === item.itemName
           ? item.itemName
           : `${item.groupName} - ${item.itemName}`;
-        orderList += `- ${name}\n`;
+        orderList += `${index + 1}. ${name}\n`;
       });
 
-      orderList += `\nTotal Items: ${items.length}`;
+      orderList += "\n-----------------------------------\n";
+      orderList += `📊  TOTAL ITEMS: ${items.length}\n`;
+      orderList += "━━━━━━━━━━━━━━━━━━━━━━━━━━━";
 
       // 2. Send via EmailJS REST API
       const payload = {
@@ -63,7 +82,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
           message: orderList,
           to_name: "Manager",
           from_name: "Built Right App",
-          order_id: Math.random().toString(36).substr(2, 9).toUpperCase(),
+          order_id: orderId,
           date: date
         }
       };
