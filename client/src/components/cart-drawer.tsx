@@ -41,7 +41,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      // 1. Format the email body (Receipt Style)
+      // 1. Format the email body (Clean Receipt Style)
       const date = new Date().toLocaleString("en-US", {
         weekday: 'short',
         year: 'numeric',
@@ -52,26 +52,27 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
       });
       const orderId = Math.random().toString(36).substr(2, 9).toUpperCase();
 
-      let orderList = "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
-      orderList += "🏭  BUILT RIGHT COMPANY  🏭\n";
-      orderList += "     SUPPLY ORDER REQUEST\n";
-      orderList += "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
-      orderList += `📅 Date:   ${date}\n`;
-      orderList += `🆔 Order:  #${orderId}\n`;
+      let orderList = "===================================\n";
+      orderList += "      BUILT RIGHT COMPANY\n";
+      orderList += "      SUPPLY ORDER REQUEST\n";
+      orderList += "===================================\n\n";
+      orderList += `DATE:   ${date}\n`;
+      orderList += `ORDER:  #${orderId}\n`;
       orderList += "\n-----------------------------------\n";
-      orderList += "📦  ITEMS REQUESTED:\n";
+      orderList += "ITEMS REQUESTED:\n";
       orderList += "-----------------------------------\n\n";
 
       items.forEach((item, index) => {
         const name = item.groupName === item.itemName
           ? item.itemName
           : `${item.groupName} - ${item.itemName}`;
-        orderList += `${index + 1}. ${name}\n`;
+        // Using Uppercase to simulate BOLD in plain text
+        orderList += `${index + 1}. ${name.toUpperCase()}\n`;
       });
 
       orderList += "\n-----------------------------------\n";
-      orderList += `📊  TOTAL ITEMS: ${items.length}\n`;
-      orderList += "━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+      orderList += `TOTAL ITEMS: ${items.length}\n`;
+      orderList += "===================================";
 
       // 2. Send via EmailJS REST API
       const payload = {
