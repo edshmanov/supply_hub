@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, Send, Trash2 } from "lucide-react";
-import { TruckIcon } from "./category-icons";
+import { SemiTruckIcon } from "@/components/icons/semi-truck";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -148,7 +148,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
             size="lg"
             className={`${triggerClassName} h-28 w-28 rounded-full hover:bg-transparent`}
           >
-            <TruckIcon className="w-24 h-24" />
+            <SemiTruckIcon className="w-24 h-24" />
             {itemCount > 0 && (
               <Badge
                 className="absolute top-1 right-1 h-10 min-w-[2.5rem] rounded-full p-2 flex items-center justify-center text-xl font-bold border-2 border-background shadow-sm"
@@ -163,7 +163,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
         <SheetContent side="right" className="w-full sm:w-96 flex flex-col">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2">
-              <TruckIcon className="w-6 h-6" />
+              <SemiTruckIcon className="w-6 h-6" />
               {t.order} ({itemCount})
             </SheetTitle>
           </SheetHeader>
@@ -171,7 +171,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
           <div className="flex-1 overflow-y-auto py-4">
             {itemCount === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                <TruckIcon className="w-16 h-16 mb-4 opacity-50" />
+                <SemiTruckIcon className="w-16 h-16 mb-4 opacity-50" />
                 <p className="text-lg">{t.orderEmpty}</p>
                 <p className="text-sm mt-1">{t.tapToAdd}</p>
               </div>
@@ -266,7 +266,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
         <AlertDialogContent className="sm:max-w-md">
           <AlertDialogHeader className="items-center text-center space-y-4">
             <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-              <TruckIcon className="w-10 h-10 text-green-600" />
+              <SemiTruckIcon className="w-10 h-10 text-green-600" />
             </div>
             <AlertDialogTitle className="text-2xl font-bold text-green-600">{t.orderSent}</AlertDialogTitle>
             <AlertDialogDescription className="text-lg">

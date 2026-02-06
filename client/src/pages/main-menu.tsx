@@ -26,8 +26,8 @@ function DepartmentCard({ name, icon: Icon, description, isActive, onClick }: De
       onClick={onClick}
       disabled={!isActive}
       className={`relative flex flex-col items-center justify-center p-8 rounded-2xl border-2 transition-all min-h-[200px] ${isActive
-          ? "border-primary bg-card hover-elevate active-elevate-2 cursor-pointer"
-          : "border-border bg-muted/30 cursor-not-allowed opacity-60"
+        ? "border-primary bg-card hover-elevate active-elevate-2 cursor-pointer"
+        : "border-border bg-muted/30 cursor-not-allowed opacity-60"
         }`}
     >
       {!isActive && (
@@ -61,8 +61,8 @@ function ThemeSettings() {
               data-testid={`button-theme-${config.id}`}
               onClick={() => setTheme(config.id)}
               className={`relative p-4 rounded-lg border-2 text-left transition-all hover-elevate ${theme === config.id
-                  ? "border-primary bg-primary/10"
-                  : "border-border bg-card"
+                ? "border-primary bg-primary/10"
+                : "border-border bg-card"
                 }`}
             >
               {theme === config.id && (
@@ -90,8 +90,8 @@ function ThemeSettings() {
                 data-testid={`button-accent-${accentId}`}
                 onClick={() => setAccent(accentId)}
                 className={`relative flex flex-col items-center p-3 rounded-lg border-2 transition-all hover-elevate ${accent === accentId
-                    ? "border-primary bg-primary/10"
-                    : "border-border bg-card"
+                  ? "border-primary bg-primary/10"
+                  : "border-border bg-card"
                   }`}
               >
                 <div
@@ -121,13 +121,15 @@ function ThemeSettings() {
   );
 }
 
-export default function MainMenu() {
+import { SemiTruckIcon } from "@/components/icons/semi-truck";
+
+function MainMenu() {
   const [, setLocation] = useLocation();
 
   const departments = [
     {
       name: "Body Shop",
-      icon: Car,
+      icon: SemiTruckIcon,
       description: "Paints, primers, and body repair supplies",
       isActive: true,
       path: "/body-shop",
