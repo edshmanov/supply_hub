@@ -55,9 +55,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
       const orderId = Math.floor(100000 + Math.random() * 900000).toString();
 
       let orderList = "";
-      orderList += "BODY SHOP SUPPLY REQUEST\n\n";
+      orderList += "BODY SHOP SUPPLY REQUEST\n";
+      orderList += "------------------------\n\n";
+
       orderList += `DATE:   ${date}\n`;
-      orderList += `ORDER:  #${orderId}\n\n`;
+      orderList += `ORDER:  #${orderId}\n`;
+      orderList += "------------------------\n\n";
 
       items.forEach((item, index) => {
         const name = item.groupName === item.itemName
