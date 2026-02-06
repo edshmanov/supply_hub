@@ -123,7 +123,7 @@ function ThemeSettings() {
 
 import { SemiTruckIcon } from "@/components/icons/semi-truck";
 
-function MainMenu() {
+export default function MainMenu() {
   const [, setLocation] = useLocation();
 
   const departments = [
