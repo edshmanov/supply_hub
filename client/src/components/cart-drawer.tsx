@@ -41,7 +41,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      // 1. Format the email body (Clean Receipt Style)
+      // 1. Format the email body (Clean Simple Style)
       const date = new Date().toLocaleString("en-US", {
         weekday: 'short',
         year: 'numeric',
@@ -50,29 +50,24 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
         hour: '2-digit',
         minute: '2-digit'
       });
-      const orderId = Math.random().toString(36).substr(2, 9).toUpperCase();
 
-      let orderList = "===================================\n";
-      orderList += "      BUILT RIGHT COMPANY\n";
-      orderList += "      SUPPLY ORDER REQUEST\n";
-      orderList += "===================================\n\n";
+      // Numeric Order ID (6 digits)
+      const orderId = Math.floor(100000 + Math.random() * 900000).toString();
+
+      let orderList = "";
+      orderList += "BODY SHOP SUPPLY REQUEST\n\n";
       orderList += `DATE:   ${date}\n`;
-      orderList += `ORDER:  #${orderId}\n`;
-      orderList += "\n-----------------------------------\n";
-      orderList += "ITEMS REQUESTED:\n";
-      orderList += "-----------------------------------\n\n";
+      orderList += `ORDER:  #${orderId}\n\n`;
 
       items.forEach((item, index) => {
         const name = item.groupName === item.itemName
           ? item.itemName
           : `${item.groupName} - ${item.itemName}`;
-        // Using Uppercase to simulate BOLD in plain text
+        // Uppercase for visibility
         orderList += `${index + 1}. ${name.toUpperCase()}\n`;
       });
 
-      orderList += "\n-----------------------------------\n";
-      orderList += `TOTAL ITEMS: ${items.length}\n`;
-      orderList += "===================================";
+      orderList += `\nTOTAL ITEMS: ${items.length}`;
 
       // 2. Send via EmailJS REST API
       const payload = {
