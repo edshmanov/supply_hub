@@ -59,7 +59,7 @@ export function Header({
           <div className="p-2 rounded-lg bg-primary/20">
             <Package className="w-6 h-6 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+          <h1 className="text-lg md:text-2xl font-bold tracking-tight truncate max-w-[200px] md:max-w-none">{title}</h1>
           {requestCount > 0 && !showCart && (
             <Badge
               data-testid="badge-request-count"

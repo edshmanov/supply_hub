@@ -146,12 +146,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
             data-testid="button-cart"
             variant="ghost"
             size="lg"
-            className={`${triggerClassName} h-28 w-28 rounded-full hover:bg-transparent`}
+            className={`${triggerClassName} h-20 w-20 sm:h-24 sm:w-24 rounded-full hover:bg-transparent shrink-0`}
           >
-            <SemiTruckIcon className="w-24 h-24" />
+            <SemiTruckIcon className="w-16 h-16 sm:w-20 sm:h-20" />
             {itemCount > 0 && (
               <Badge
-                className="absolute top-1 right-1 h-10 min-w-[2.5rem] rounded-full p-2 flex items-center justify-center text-xl font-bold border-2 border-background shadow-sm"
+                className="absolute top-0 right-0 h-6 min-w-[1.5rem] rounded-full px-1.5 flex items-center justify-center text-sm font-bold border-2 border-background shadow-sm"
                 variant="destructive"
                 data-testid="badge-cart-count"
               >

@@ -7,31 +7,30 @@ export function SemiTruckIcon(props: LucideProps) {
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            fill="currentColor"
+            stroke="none"
             {...props}
         >
-            {/* Cab Body */}
-            <path d="M4 10h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10z" />
-            {/* Windshield */}
-            <path d="M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" />
-            {/* Grille */}
-            <path d="M8 14h8V19H8z" />
-            <path d="M8 16h8" />
-            <path d="M8 18h8" />
-            {/* Headlights */}
-            <circle cx="6" cy="16" r="1.5" />
-            <circle cx="18" cy="16" r="1.5" />
-            {/* Roof Lights */}
-            <path d="M7 4h1" />
-            <path d="M11 4h2" />
-            <path d="M16 4h1" />
+            {/* Front Grille area - Maximized size */}
+            <path d="M4 2h16c1.1 0 2 .9 2 2v9h-2V6H4v7H2V4c0-1.1.9-2 2-2z" /> {/* Top/Sides of Cab */}
+            <rect x="6" y="8" width="12" height="10" rx="1" /> {/* Main Grille */}
+            <path d="M7 10h10v1H7zM7 12h10v1H7zM7 14h10v1H7zM7 16h10v1H7z" fill="var(--background)" />
+
+            {/* Bumper */}
+            <path d="M2 18h20v4H2z" />
+
+            {/* Lights */}
+            <circle cx="4" cy="16" r="2" />
+            <circle cx="20" cy="16" r="2" />
+
             {/* Mirrors */}
-            <path d="M2 8v4" />
-            <path d="M22 8v4" />
+            <rect x="0" y="6" width="2" height="6" rx="0.5" />
+            <rect x="22" y="6" width="2" height="6" rx="0.5" />
+
+            {/* Roof Lights */}
+            <circle cx="8" cy="4" r="1" fill="var(--background)" />
+            <circle cx="12" cy="4" r="1" fill="var(--background)" />
+            <circle cx="16" cy="4" r="1" fill="var(--background)" />
         </svg>
     );
 }
