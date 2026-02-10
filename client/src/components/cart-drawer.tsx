@@ -41,7 +41,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      // 1. Format the email body (Clean Simple Style)
+      // 1. Submit order to server to get sequential ID
+      const serverResponse = await apiRequest("POST", "/api/orders/submit", { items });
+      const serverData = await serverResponse.json();
+      const orderNumber = serverData.orderNumber || Math.floor(100000 + Math.random() * 900000);
+
+      // 2. Format the email body (Clean Simple Style)
       const date = new Date().toLocaleString("en-US", {
         weekday: 'short',
         year: 'numeric',
@@ -51,15 +56,12 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
         minute: '2-digit'
       });
 
-      // Numeric Order ID (6 digits)
-      const orderId = Math.floor(100000 + Math.random() * 900000).toString();
-
       let orderList = "";
       orderList += "BODY SHOP SUPPLY REQUEST\n";
       orderList += "------------------------\n\n";
 
       orderList += `DATE:   ${date}\n`;
-      orderList += `ORDER:  #${orderId}\n`;
+      orderList += `ORDER:  #${orderNumber}\n`;
       orderList += "------------------------\n\n";
 
       items.forEach((item, index) => {
@@ -72,7 +74,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
       orderList += `\nTOTAL ITEMS: ${items.length}`;
 
-      // 2. Send via EmailJS REST API
+      // 3. Send via EmailJS REST API
       const payload = {
         service_id: "service_xyz",
         template_id: "template_5xjf6zm",
@@ -81,7 +83,7 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
           message: orderList,
           to_name: "Manager",
           from_name: "Built Right App",
-          order_id: orderId,
+          order_id: orderNumber.toString(),
           date: date
         }
       };

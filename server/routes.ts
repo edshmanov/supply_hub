@@ -180,6 +180,7 @@ export async function registerRoutes(
       res.json({
         success: true,
         orderId: order.id,
+        orderNumber: order.orderNumber,
         emailSent: true, // Optimistic success
         message: "Order submitted successfully"
       });
