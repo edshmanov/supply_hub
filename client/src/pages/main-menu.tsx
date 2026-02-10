@@ -216,7 +216,7 @@ export default function MainMenu() {
 
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            Inventory Management System v1.0
+            Developed by Ed Shmanov
           </p>
         </div>
       </main>

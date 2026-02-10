@@ -90,7 +90,7 @@ export function Header({
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
-            {/* ... Sheet Content ... */}
+            Developed by Ed Shmanov.. */
             <SheetContent side="right" className="w-80">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
@@ -140,8 +140,7 @@ export function Header({
                   <div className="space-y-2">
                     <div className="p-3 rounded-lg bg-muted/50">
                       <p className="text-sm text-muted-foreground">
-                        <strong>Built Right Company</strong><br />
-                        {t.version}
+                        <strong>Developed by Ed Shmanov</strong><br />
                       </p>
                     </div>
                     <div className="p-3 rounded-lg bg-muted/50">
