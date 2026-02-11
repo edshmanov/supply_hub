@@ -33,6 +33,8 @@ export interface IStorage {
   createOrder(orderItems: OrderItem[]): Promise<Order>;
   getOrders(): Promise<Order[]>;
 
+  getOrderCount(): Promise<number>;
+
   // Seeding
   seedInitialData(): Promise<void>;
 }
@@ -142,6 +144,11 @@ export class DatabaseStorage implements IStorage {
 
   async getOrders(): Promise<Order[]> {
     return db.select().from(orders).orderBy(desc(orders.createdAt));
+  }
+
+  async getOrderCount(): Promise<number> {
+    const ordersList = await this.getOrders();
+    return ordersList.length;
   }
 
   // Seed initial inventory data

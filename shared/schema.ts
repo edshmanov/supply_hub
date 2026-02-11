@@ -72,7 +72,6 @@ export type User = typeof users.$inferSelect;
 // Orders table for tracking submitted orders
 export const orders = pgTable("orders", {
   id: text("id").primaryKey().$defaultFn(createId),
-  orderNumber: serial("order_number").notNull(),
   items: text("items").notNull(), // JSON string of order items
   status: text("status").notNull().default("pending"), // pending, sent, completed
   createdAt: timestamp("created_at").notNull().defaultNow(),

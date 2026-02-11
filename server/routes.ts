@@ -157,10 +157,11 @@ export async function registerRoutes(
 
       // Create order in database
       const order = await storage.createOrder(items);
+      const orderCount = await storage.getOrderCount();
 
       // Generate order summary for logging
       const orderSummary = generateOrderSummary(items);
-      console.log("Order submitted:", order.id);
+      console.log("Order submitted:", order.id, "Number:", orderCount);
       console.log("Order summary:\n", orderSummary);
 
       // Send email to manager in background (do not await)
@@ -180,7 +181,7 @@ export async function registerRoutes(
       res.json({
         success: true,
         orderId: order.id,
-        orderNumber: order.orderNumber,
+        orderNumber: orderCount,
         emailSent: true, // Optimistic success
         message: "Order submitted successfully"
       });
