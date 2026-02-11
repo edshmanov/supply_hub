@@ -60,13 +60,26 @@ app.use((req, res, next) => {
   next();
 });
 
-import { storage } from "./storage";
+import { startKeepAlive } from "./keep_alive";
 
 (async () => {
   // Initialize minimal seed data if empty
-  await storage.seedInitialData();
+  try {
+    // Non-blocking seed attempt
+    storage.seedInitialData().catch(err => {
+      console.error("Failed to seed initial data:", err);
+    });
+  } catch (err) {
+    console.error("Failed to initiate seeding:", err);
+  }
+
+  // Health check endpoint for keep-alive
+  app.get("/api/health", (_req, res) => {
+    res.status(200).json({ status: "ok", uptime: process.uptime() });
+  });
 
   await registerRoutes(httpServer, app);
+  startKeepAlive();
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
