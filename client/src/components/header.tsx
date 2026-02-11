@@ -140,7 +140,8 @@ export function Header({
                   <div className="space-y-2">
                     <div className="p-3 rounded-lg bg-muted/50">
                       <p className="text-sm text-muted-foreground">
-                        <strong>Developed by Ed Shmanov</strong><br />
+                        <strong>Built Right Company</strong><br />
+                        {t.version}
                       </p>
                     </div>
                     <div className="p-3 rounded-lg bg-muted/50">

@@ -1,6 +1,6 @@
-import { 
+import {
   items, itemGroups, orders,
-  type Item, type InsertItem, 
+  type Item, type InsertItem,
   type ItemGroup, type InsertItemGroup,
   type ItemGroupWithItems,
   type User, type InsertUser, users,
@@ -14,7 +14,7 @@ export interface IStorage {
   getAllGroups(): Promise<ItemGroup[]>;
   getGroupsWithItems(): Promise<ItemGroupWithItems[]>;
   createGroup(group: InsertItemGroup): Promise<ItemGroup>;
-  
+
   // Items
   getAllItems(): Promise<Item[]>;
   getItem(id: string): Promise<Item | undefined>;
@@ -23,16 +23,16 @@ export interface IStorage {
   requestRestock(id: string): Promise<Item | undefined>;
   clearRequest(id: string): Promise<Item | undefined>;
   clearAllRequests(): Promise<void>;
-  
+
   // Users
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Orders
   createOrder(orderItems: OrderItem[]): Promise<Order>;
   getOrders(): Promise<Order[]>;
-  
+
   // Seeding
   seedInitialData(): Promise<void>;
 }
@@ -40,13 +40,25 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   // Item Groups
   async getAllGroups(): Promise<ItemGroup[]> {
-    return db.select().from(itemGroups).orderBy(asc(itemGroups.sortOrder));
+    const groups = await db.select().from(itemGroups).orderBy(asc(itemGroups.name));
+
+    // Deduplicate logic: Keep only the first occurrence of each group name
+    const uniqueMap = new Map<string, ItemGroup>();
+    groups.forEach(g => {
+      // Normalize name for check (optional, but safer)
+      const key = g.name.trim();
+      if (!uniqueMap.has(key)) {
+        uniqueMap.set(key, g);
+      }
+    });
+
+    return Array.from(uniqueMap.values());
   }
 
   async getGroupsWithItems(): Promise<ItemGroupWithItems[]> {
     const groups = await this.getAllGroups();
     const allItems = await this.getAllItems();
-    
+
     return groups.map(group => ({
       ...group,
       items: allItems
@@ -201,7 +213,7 @@ export class DatabaseStorage implements IStorage {
 
     for (const { group, items: itemNames } of seedData) {
       const createdGroup = await this.createGroup(group);
-      
+
       for (let i = 0; i < itemNames.length; i++) {
         await this.createItem({
           name: itemNames[i],
