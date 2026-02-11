@@ -90,7 +90,6 @@ export function Header({
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
-            Developed by Ed Shmanov.. */
             <SheetContent side="right" className="w-80">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
