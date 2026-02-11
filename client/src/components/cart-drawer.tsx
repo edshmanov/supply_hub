@@ -41,10 +41,23 @@ export function CartDrawer({ triggerClassName }: CartDrawerProps) {
 
   const submitOrderMutation = useMutation({
     mutationFn: async () => {
-      // 1. Submit order to server to get sequential ID
-      const serverResponse = await apiRequest("POST", "/api/orders/submit", { items });
-      const serverData = await serverResponse.json();
-      const orderNumber = serverData.orderNumber || Math.floor(100000 + Math.random() * 900000);
+      // 1. Submit order to server to get sequential ID (with fallback)
+      let orderNumber: number | string;
+      try {
+        const serverResponse = await apiRequest("POST", "/api/orders/submit", { items });
+        const serverData = await serverResponse.json();
+        orderNumber = serverData.orderNumber;
+      } catch (error) {
+        console.error("Failed to get sequential order ID from server, using fallback:", error);
+        // Fallback to random ID if server fails (e.g. DB migration issue)
+        orderNumber = Math.floor(100000 + Math.random() * 900000);
+      }
+
+      if (!orderNumber) {
+        orderNumber = Math.floor(100000 + Math.random() * 900000);
+      }
+
+      console.log("Using Order Number:", orderNumber);
 
       // 2. Format the email body (Clean Simple Style)
       const date = new Date().toLocaleString("en-US", {
