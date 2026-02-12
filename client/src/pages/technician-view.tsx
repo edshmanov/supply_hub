@@ -64,7 +64,7 @@ export default function TechnicianView() {
         showManagerLink
         showBackLink
         showCart
-        showTruckList
+        showCart
         requestCount={itemCount}
         onManagerClick={handleManagerAccess}
         onBackClick={handleBack}
