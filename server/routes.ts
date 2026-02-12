@@ -192,6 +192,18 @@ export async function registerRoutes(
   });
 
   // Get all orders (for manager)
+  // Admin route to clear orders (Requested by user to reset sequence)
+  app.get("/api/admin/reset-now", async (_req, res) => {
+    try {
+      await storage.clearOrders();
+      console.log("Orders cleared by admin request");
+      res.json({ success: true, message: "Orders have been reset to 0. Next order will be #1." });
+    } catch (e) {
+      console.error("Failed to clear orders:", e);
+      res.status(500).json({ success: false, message: "Failed to reset orders" });
+    }
+  });
+
   app.get("/api/orders", async (_req, res) => {
     try {
       const ordersList = await storage.getOrders();
