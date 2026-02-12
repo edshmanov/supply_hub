@@ -6,13 +6,8 @@ import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
 const viteLogger = createLogger();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export async function setupVite(server: Server, app: Express) {
   const serverOptions = {
