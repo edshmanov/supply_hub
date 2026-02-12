@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertItemSchema, insertItemGroupSchema, type OrderItem } from "@shared/schema";
+import { insertItemSchema, insertItemGroupSchema, insertUsageLogSchema, type OrderItem } from "@shared/schema";
 import { z } from "zod";
 import { sendOrderEmail } from "./gmail";
 
@@ -73,6 +73,22 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error creating item:", error);
       res.status(500).json({ error: "Failed to create item" });
+    }
+  });
+
+  // USAGE TRACKING ("Take Item")
+  app.post("/api/usage/record", async (req, res) => {
+    try {
+      const parsed = insertUsageLogSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid usage data", details: parsed.error });
+      }
+      const log = await storage.logUsage(parsed.data);
+      console.log(`[Usage] Recorded: ${log.quantity}x ${log.itemName} (${log.itemId})`);
+      res.status(201).json(log);
+    } catch (e) {
+      console.error("Failed to record usage:", e);
+      res.status(500).json({ error: "Failed to record usage" });
     }
   });
 

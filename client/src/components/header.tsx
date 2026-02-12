@@ -12,7 +12,11 @@ import { Separator } from "@/components/ui/separator";
 import { ThemeSwitcherContent } from "./theme-switcher";
 import { CartDrawer } from "./cart-drawer";
 import { TruckListDrawer } from "./truck-list-drawer";
+import { TruckListDrawer } from "./truck-list-drawer";
 import { useLanguage } from "@/providers/language-provider";
+import { useMode } from "@/providers/mode-provider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 interface HeaderProps {
   title: string;
@@ -40,9 +44,14 @@ export function Header({
   isClearingAll
 }: HeaderProps) {
   const { language, setLanguage, t, languageNames, languages } = useLanguage();
+  const { isTakeMode, toggleMode } = useMode();
+
+  const headerBgMsg = isTakeMode
+    ? "bg-orange-500/10 border-orange-500/50"
+    : "bg-card/95 backdrop-blur-sm border-border";
 
   return (
-    <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
+    <header className={`sticky top-0 z-50 ${headerBgMsg} border-b transition-colors duration-300`}>
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-2 relative">
         {/* Left Side: Back, Logo, Title */}
         <div className="flex items-center gap-2 pr-20">
@@ -73,6 +82,22 @@ export function Header({
 
         {/* Right Side: Actions */}
         <div className="flex items-center gap-1">
+          {/* Mode Switcher */}
+          <div className="flex items-center gap-2 mr-2 bg-muted/50 p-1 rounded-full border border-border">
+            <Label htmlFor="mode-switch" className={`text-xs font-bold cursor-pointer ${!isTakeMode ? 'text-primary' : 'text-muted-foreground'} px-2`}>
+              ORDER
+            </Label>
+            <Switch
+              id="mode-switch"
+              checked={isTakeMode}
+              onCheckedChange={toggleMode}
+              className="data-[state=checked]:bg-orange-500"
+            />
+            <Label htmlFor="mode-switch" className={`text-xs font-bold cursor-pointer ${isTakeMode ? 'text-orange-600' : 'text-muted-foreground'} px-2`}>
+              TAKE
+            </Label>
+          </div>
+
           {showTruckList && (
             <div className="mr-14 md:mr-0"> {/* Spacing for mobile absolute cart */}
               <TruckListDrawer />

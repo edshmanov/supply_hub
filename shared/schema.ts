@@ -92,3 +92,21 @@ export interface OrderItem {
   groupId: string;
   groupName: string;
 }
+
+// Usage logs table for tracking item consumption ("Take Item")
+export const usageLogs = pgTable("usage_logs", {
+  id: text("id").primaryKey().$defaultFn(createId),
+  itemName: text("item_name").notNull(),
+  itemId: text("item_id"), // Optional: in case item is deleted later
+  quantity: integer("quantity").notNull().default(1),
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
+});
+
+export const insertUsageLogSchema = createInsertSchema(usageLogs).pick({
+  itemName: true,
+  itemId: true,
+  quantity: true,
+});
+
+export type InsertUsageLog = z.infer<typeof insertUsageLogSchema>;
+export type UsageLog = typeof usageLogs.$inferSelect;

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { CartProvider } from "@/providers/cart-provider";
 import { LanguageProvider } from "@/providers/language-provider";
 import { TruckListProvider } from "@/providers/truck-list-provider";
+import { ModeProvider } from "@/providers/mode-provider";
 import MainMenu from "@/pages/main-menu";
 import TechnicianView from "@/pages/technician-view";
 import ManagerDashboard from "@/pages/manager-dashboard";
@@ -32,12 +33,14 @@ function App() {
         <ThemeProvider>
           <LanguageProvider>
             <TruckListProvider>
-              <CartProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <Router />
-                </TooltipProvider>
-              </CartProvider>
+              <ModeProvider>
+                <CartProvider>
+                  <TooltipProvider>
+                    <Toaster />
+                    <Router />
+                  </TooltipProvider>
+                </CartProvider>
+              </ModeProvider>
             </TruckListProvider>
           </LanguageProvider>
         </ThemeProvider>

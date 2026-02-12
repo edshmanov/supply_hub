@@ -4,7 +4,8 @@ import {
   type ItemGroup, type InsertItemGroup,
   type ItemGroupWithItems,
   type User, type InsertUser, users,
-  type Order, type OrderItem
+  type Order, type OrderItem,
+  type UsageLog, type InsertUsageLog, usageLogs
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, asc, desc } from "drizzle-orm";
@@ -38,6 +39,9 @@ export interface IStorage {
 
   // Seeding
   seedInitialData(): Promise<void>;
+
+  // Usage
+  logUsage(log: InsertUsageLog): Promise<UsageLog>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -154,6 +158,12 @@ export class DatabaseStorage implements IStorage {
 
   async clearOrders(): Promise<void> {
     await db.delete(orders);
+  }
+
+  // Usage
+  async logUsage(log: InsertUsageLog): Promise<UsageLog> {
+    const [entry] = await db.insert(usageLogs).values(log).returning();
+    return entry;
   }
 
   // Seed initial inventory data
